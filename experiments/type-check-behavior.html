@@ -1,0 +1,37 @@
+<script>
+  TypeCheckBehavior = {
+    attached: function() {
+      console.log('TypeCheckBehavior on ' + this.localName + '#' +
+        this.id + ' was attached');
+    },
+
+    created: function() {
+      console.log(this.properties);
+      var typeObserver = Object.observe(this.properties, function(o) {
+        console.log(o);
+      });
+    },
+
+    detached: function() {
+      console.log('TypeCheckBehavior on ' + this.localName + '#' +
+        this.id + ' was detached');
+
+    },
+
+    attributeChanged: function(name, type) {
+      var attr = this.getAttribute(name);
+      var annotatedType = this.properties[name].type;
+      var typeofAttr = typeof attr;
+      var typeMatch = typeof new annotatedType() === typeofAttr;
+
+      var text = 'TypeCheck: ' + name + '::' + annotatedType.name + ' set to \`' + attr + '\` (' + typeMatch + ') on ' + this.localName;
+
+      if (!typeMatch) {
+        console.warn(text);
+      } else {
+        console.log(text);
+      }
+
+    }
+  };
+</script>

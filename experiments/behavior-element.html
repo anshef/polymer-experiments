@@ -1,0 +1,53 @@
+<link rel="import" href="type-check-behavior.html">
+
+<dom-module id="behavior-element">
+  <style>
+  .wrap {
+    padding: 20px;
+    overflow: hidden;
+    background-color: white;
+  }
+  </style>
+  <template>
+  <div class="wrap">
+    <p>
+      Hello from <code>&lt;behavior-element&gt;</code>. Check out your console.
+    </p>
+    <button on-tap="setFooToString">Set foo:Number to contain a String.</button>
+    <button on-tap="setFooToNumber">Set foo:Number to contain a Number.</button>
+  </div>
+  </template>
+</dom-module>
+<script>
+TestBehavior = {
+  created: function() {
+    console.log('created');
+  },
+  attached: function() {
+    console.log('attached');
+  },
+  detached: function() {
+    console.log('detached');
+  }
+};
+
+Polymer({
+  is: 'behavior-element',
+  behaviors: [TypeCheckBehavior],
+  properties: {
+    foo: {
+      type: Number,
+      reflectToAttribute: true
+    },
+    bar: String,
+    baz: Array
+  },
+  setFooToString: function() {
+    this.foo = "Nope.";
+  },
+  setFooToNumber: function() {
+    this.foo = 9000;
+  }
+});
+</script>
+
